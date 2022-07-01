@@ -133,7 +133,25 @@ function validateName() {
 }
 
 function validateEmail() {
-	return validateNode(/^.+@.+\.com$/, email);
+	let regex = /^.+@.+\.com$/;
+	let hintbox = email.parentElement.lastElementChild;
+	if (regex.test(email.value)) {
+		email.parentNode.classList.remove("not-valid");
+		email.parentNode.classList.add("valid");
+		hintbox.style.display = "none";
+		return true;
+	} else {
+		email.parentNode.classList.add("not-valid");
+		email.parentNode.classList.remove("valid");
+		hintbox.style.display = "block";
+		if (email.value.length === 0)
+			hintbox.innerHTML = "Must provide an email.";
+		else if (!email.value.includes(".com"))
+			hintbox.innerHTML = "Email adress must be a .com adress";
+		else
+			hintbox.innerHTML = "Email must be properly formatted.";
+		return false;
+	}
 }
 
 function validateActivities() {
