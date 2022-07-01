@@ -1,6 +1,10 @@
 //set focus of the fist element
 document.getElementById("name").focus();
 
+//Add keyup eventlistener on email
+let email = document.getElementById("email");
+email.addEventListener("keyup", validateEmail);
+
 //Hide the otherjobrole input 
 let otherJobInput = document.getElementById("other-job-role");
 otherJobInput.style.display = "none";
@@ -63,6 +67,21 @@ document.getElementById("activities").addEventListener("change", (e)=> {
 	let totalCostElement = document.getElementById("activities-cost");
 	let totalCost = totalCostElement.innerHTML;
 	
+	let dayandtime = e.target.dataset["dayAndTime"];
+	
+	if (dayandtime != undefined) {
+		for (act of document.querySelectorAll("#activities input")) {
+			if (dayandtime === act.dataset["dayAndTime"] && act.name != e.target.name) {
+				act.disabled = checkStat;
+				if (checkStat) 
+					act.parentElement.classList.add("disabled");
+				else 
+					act.parentElement.classList.remove("disabled");
+
+			}
+		}
+	}
+	
 	//Add or remove cost from total cost
 	if (checkStat) {
 		totalCost = totalCost.replace(/\d+/, parseInt(totalCost.match(/\d+/)) + cost);
@@ -114,7 +133,6 @@ function validateName() {
 }
 
 function validateEmail() {
-	let email = document.getElementById("email");
 	return validateNode(/^.+@.+\.com$/, email);
 }
 
